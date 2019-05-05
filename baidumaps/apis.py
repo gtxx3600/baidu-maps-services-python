@@ -13,18 +13,19 @@ import re
 
 def place_search(client, query, region=None, bounds=None,
                  location=None, **kwargs):
-    """This module sends requests for "query", and returns general
-        geographic information. It also needs assigning one and only one of
-        following key words: "region", "bounds", "location", so as to set
-        search type. For more details, please refer to Baidu's official
-        description.
+    """
+    范围搜索
+    :query 必选
+    :region 行政区划区域检索
+    :bounds 矩形区域检索
+    :location 圆形区域检索
 
     Attention! You should always use <lng, lat>, NOT <lat, lng> whenever you
         need. It will be converted to <lat, lng> if raw API requires.
         Moreover, default return is a simpler version of raw API callback, of
         course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi#service-page-anchor-1-1
     """
 
     sep_pattern = re.compile(r'[,;|]')
@@ -83,14 +84,13 @@ def place_search(client, query, region=None, bounds=None,
 
 
 def place_detail(client, uid=None, uids=None, **kwargs):
-    """This module sends requests for "uid"/"uids"("uids" for more than two
-        uids), and returns detail information. For more details, please refer
-        to Baidu's official description.
+    """
+    地点详情检索服务
 
     Attention! Default return is a simpler version of raw API callback, of
         course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-placeapi
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-placeapi#service-page-anchor-1-3
     """
 
     sep_pattern = re.compile(r'[,;|]')
@@ -196,16 +196,15 @@ def place_eventdetail(client, uid, **kwargs):
 
 
 def place_suggest(client, query, region, **kwargs):
-    """This module sends requests for event determined by "query" and
-        "region", and returns best search suggestion. For more details, please
-        refer to Baidu's official description.
+    """
+    地点输入提示
 
     Attention! You should always use <lng, lat>, NOT <lat, lng> whenever you
         need. It will be converted to <lat, lng> if raw API requires.
         Moreover, default return is a simpler version of raw API callback, of
         course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/place-suggestion-api
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/place-suggestion-api
     """
 
     check_location = 'location' in kwargs
@@ -239,16 +238,15 @@ def place_suggest(client, query, region, **kwargs):
 
 
 def geocode(client, address=None, location=None, **kwargs):
-    """This module sends requests for "address", and returns "location"
-        information, or conversely. For more details, please refer to Baidu's
-        official description.
+    """
+    地理编码
 
     Attention! You should always use <lng, lat>, NOT <lat, lng> whenever you
         need. It will be converted to <lat, lng> if raw API requires.
-        Moreover, default return is a simpler version of raw API callback, of
-        course, you can set 'raw=True' for complete raw json callback.
+        Moreover, default return is a simpler version of raw API callback,
+        of course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/guide/webservice-geocoding
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding
     """
 
     sep_pattern = re.compile(r'[,;|]')
@@ -285,7 +283,10 @@ def geocode(client, address=None, location=None, **kwargs):
 
 def direct(client, origin, destination, mode='driving', region=None,
            origin_region=None, destination_region=None, **kwargs):
-    """This module sends requests for route determined by "origin",
+    """
+    路线规划
+
+    This module sends requests for route determined by "origin",
         "destination" and "mode='driving'", returns direction information. If
         mode="driving", It needs assigning "origin_region" and
         "destination_region"; if mode="walking" or "transit", It also needs
@@ -347,13 +348,13 @@ def direct(client, origin, destination, mode='driving', region=None,
 
 
 def ip_locate(client, ip=None, **kwargs):
-    """This module requests location information for given ip or current local
-        ip. For more details, please refer to Baidu's official description.
+    """
+    IP 定位
 
     Attention! Default return is a simpler version of raw API callback, of
         course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/ip-api
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/ip-api
     """
 
     if ip:
@@ -456,15 +457,15 @@ def route_matrix(client, origins, destinations, **kwargs):
 
 
 def geoconv(client, coords, **kwargs):
-    """This module converts coords from some standard type to another. For
-        more details, please refer to Baidu's official description.
+    """
+    坐标转换
 
     Attention! You should always use <lng, lat>, NOT <lat, lng> whenever you
         need. It will be converted to <lat, lng> if raw API requires.
         Moreover, default return is a simpler version of raw API callback, of
         course, you can set 'raw=True' for complete raw json callback.
 
-    Reference: http://developer.baidu.com/map/index.php?title=webapi/guide/changeposition
+    Reference: http://lbsyun.baidu.com/index.php?title=webapi/guide/changeposition
     """
 
     sep_pattern = re.compile(r'[,;|]')
