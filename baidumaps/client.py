@@ -8,7 +8,10 @@
 
 # THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import urllib
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 import requests
 import re
 import baidumaps
@@ -57,7 +60,7 @@ class Client(object):
         temp = params.copy()    # avoid altering argument 'params'
         {temp.pop(key) for key in ['server_name', 'version', 'subserver_name']}
         temp.update({'ak': self.ak, 'output': self.output})
-        addi_url = urllib.urlencode(temp)
+        addi_url = urlencode(temp)
 
         return base_url + addi_url
 
