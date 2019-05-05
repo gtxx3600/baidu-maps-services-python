@@ -10,10 +10,17 @@
 
 try:
     from urllib.parse import urlencode
+    from urllib.parse import quote
+    from urllib.parse import unquote
+    from urllib.parse import quote_plus
 except ImportError:
     from urllib import urlencode
+    from urllib import quote
+    from urllib import unquote
+    from urllib import quote_plus
 import requests
 import re
+import hashlib
 import baidumaps
 from baidumaps import apis
 from baidumaps import exceptions
@@ -21,7 +28,7 @@ from baidumaps import parse
 
 
 class Client(object):
-    def __init__(self, ak=None, domain='http://api.map.baidu.com',
+    def __init__(self, ak=None, sk=None, domain='http://api.map.baidu.com',
                  output='json'):
         if not ak:
             raise ValueError("Must provide API when creating client. Refer to\
@@ -30,7 +37,11 @@ class Client(object):
         if ak and not re.search(r'^[a-zA-Z0-9]+$', ak):
             raise ValueError('Invalid ak(API key)!')
 
+        if sk and not re.search(r'^[a-zA-Z0-9]+$', sk):
+            raise ValueError('Invalid sk(API key)!')
+
         self.ak = ak
+        self.sk = sk
         self.domain = domain
         self.output = output
 
@@ -39,10 +50,11 @@ class Client(object):
         response = requests.get(request_url).json()
 
         status = response['status']
+        message = response.get('message')
         server_name = params['server_name']
         subserver_name = params['subserver_name']
         if status != 0:
-            raise exceptions.StatusError(server_name, subserver_name, status)
+            raise exceptions.StatusError(server_name, subserver_name, status, message)
         elif 'raw' in params and params['raw']:
             result = response
         else:
@@ -61,6 +73,12 @@ class Client(object):
         {temp.pop(key) for key in ['server_name', 'version', 'subserver_name']}
         temp.update({'ak': self.ak, 'output': self.output})
         addi_url = urlencode(temp)
+        if self.sk:
+            queryStr = re.sub(self.domain, '', base_url) + unquote(addi_url)
+            encodedStr = quote(queryStr, safe="/:=&?#+!$,;'@()*[]")
+            rawStr = encodedStr + self.sk
+            sn = hashlib.md5(quote_plus(rawStr).encode('utf-8')).hexdigest()
+            addi_url = addi_url + '&sn=' + str(sn)
 
         return base_url + addi_url
 

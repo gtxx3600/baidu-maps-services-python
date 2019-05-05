@@ -15,7 +15,7 @@ from baidumaps import client as _client
 
 class ClientTest(unittest.TestCase):
     def setUp(self):
-        self.client = _client.Client('ak=GuMrViec3jLp1WCG4P3VLDlC')
+        self.client = _client.Client(ak='GuMrViec3jLp1WCG4P3VLDlC')
 
     def tearDown(self):
         self._client = None
@@ -32,8 +32,8 @@ class ClientTest(unittest.TestCase):
         genurl = self.client.generate_url({'server_name': 'location',
                                           'version': '',
                                           'subserver_name': 'ip'})
-        expected_url = 'http://api.map.baidu.com/location/\
-                        ip?ak=GuMrViec3jLp1WCG4P3VLDlC'
+        expected_url = 'http://api.map.baidu.com/location/' + \
+                        'ip?ak=GuMrViec3jLp1WCG4P3VLDlC'
         self.assertEqual(expected_url, genurl)
 
     def test_get_nothing(self):

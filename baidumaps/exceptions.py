@@ -44,14 +44,17 @@ messages = {'geoconv': {'1': '内部错误', '21': 'from非法', '22': 'to非法
 
 class StatusError(Exception):
 
-    def __init__(self, server_name, subserver_name, status):
+    def __init__(self, server_name, subserver_name, status, message):
         self.name = server_name + subserver_name
         self.status = str(status)
+        self.message = message
 
     def __str__(self):
         check_status = self.status in messages[self.name]
         if check_status:
             return "[status %s]: %s." % (self.status,
                                          messages[self.name][self.status])
+        elif self.message:
+            return "[status %s]: %s." % (self.status, self.message)
         else:
             return "[status %s]: %s." % (self.status, '非官方文档所列的未知错误！')
