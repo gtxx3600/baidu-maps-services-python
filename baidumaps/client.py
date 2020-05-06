@@ -72,7 +72,7 @@ class Client(object):
         temp = params.copy()    # avoid altering argument 'params'
         {temp.pop(key) for key in ['server_name', 'version', 'subserver_name']}
         temp.update({'ak': self.ak, 'output': self.output})
-        addi_url = urlencode(temp)
+        addi_url = urlencode(temp, safe="/:=&?#+!$,;'@()*[]")
         if self.sk:
             queryStr = re.sub(self.domain, '', base_url) + unquote(addi_url)
             encodedStr = quote(queryStr, safe="/:=&?#+!$,;'@()*[]")
